@@ -16,25 +16,55 @@ const Login = ({ setShowLogin }) => {
     setData((data) => ({ ...data, [name]: value }));
   };
 
+  // const onLogin = async (e) => {
+  //   e.preventDefault();
+  //   let newUrl = url;
+  //   if (currentState === "Sign up") {
+  //     newUrl += "/api/user/register";
+  //   } else {
+  //     newUrl += "/api/user/login";
+  //   }
+
+  //   const response = await axios.post(newUrl, data);
+  //   if (response.data.success) {
+  //     setToken(response.data.token);
+  //     localStorage.setItem("token", response.data.token);
+  //     setShowLogin(false);
+  //   } else {
+  //     //install totastify later
+  //   }
+  // };
+
+
+  
   const onLogin = async (e) => {
-    e.preventDefault();
-    let newUrl = url;
-    if (currentState === "Sign up") {
-      newUrl += "/api/user/register";
-    } else {
-      newUrl += "/api/user/login";
-    }
+  e.preventDefault();
 
-    const response = await axios.post(newUrl, data);
-    if (response.data.success) {
-      setToken(response.data.token);
-      localStorage.setItem("token", response.data.token);
-      setShowLogin(false);
-    } else {
-      //install totastify later
-    }
-  };
+  let newUrl = url;
+  let payload = {};
 
+  if (currentState === "Sign up") {
+    newUrl += "/api/user/register";
+    payload = data; // name, email, password
+  } else {
+    newUrl += "/api/user/login";
+    payload = {
+      email: data.email,
+      password: data.password
+    };
+  }
+
+  console.log("URL:", newUrl);
+console.log("PAYLOAD:", payload);
+
+  const response = await axios.post(newUrl, payload);
+
+  if (response.data.success) {
+    setToken(response.data.token);
+    localStorage.setItem("token", response.data.token);
+    setShowLogin(false);
+  }
+};
   return (
     <div className="login">
       <form onSubmit={onLogin} className="login-container">
