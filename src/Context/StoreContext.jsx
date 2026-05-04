@@ -10,7 +10,13 @@ const StoreContextProvider = ({ children }) => {
   const [item_list, setItemList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const url = "https://store-deliver-backend.onrender.com";
+  // const url = "https://store-deliver-backend.onrender.com";
+
+   console.log("process.env:", process.env);
+  console.log("process.env.REACT_APP_NODE_ENV:", process.env.REACT_APP_NODE_ENV);
+  console.log("process.env.REACT_APP_SERVER_BASE_URL:", process.env.REACT_APP_SERVER_BASE_URL);
+  const url = process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_BASE_URL : process.env.REACT_APP_SERVER_BASE_URL;
+
 
   const fetchItemList = async () => {
     const response = await axios.get(`${url}/api/store/list`);
