@@ -1,0 +1,30 @@
+name: Deploy Node Application
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
+      - name: Build Docker Image
+        run: docker build -t everistben/react-app --build-arg VITE_NODE_ENV='production' --build-arg VITE_SERVER_BASE_URL='${{ secrets.VITE_SERVER_BASE_URL }}'  .
+      - name: Publish Image to docker hub
+        run: docker push everistben/react-app:latest 
+ 
+  deploy:
+    needs: build
+    runs-on: self-hosted 
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull everistben/react-app:latest 
+      - name: Delete old container
+        run: docker rm -f reactjs-app-container || true
+      - name: Run Docker Container
+        run: docker run -d -p 3000:80 --name reactjs-app-container everistben/react-app
