@@ -12,9 +12,7 @@ const StoreContextProvider = ({ children }) => {
 
   // const url = "https://store-deliver-backend.onrender.com";
 
-console.log("env:", import.meta.env);
-console.log("VITE_NODE_ENV:", import.meta.env.VITE_NODE_ENV);
-console.log("VITE_SERVER_BASE_URL:", import.meta.env.VITE_SERVER_BASE_URL);
+
 
 const url = import.meta.env.VITE_SERVER_BASE_URL;
 
