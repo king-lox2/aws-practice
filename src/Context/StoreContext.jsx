@@ -16,10 +16,9 @@ console.log("env:", import.meta.env);
 console.log("VITE_NODE_ENV:", import.meta.env.VITE_NODE_ENV);
 console.log("VITE_SERVER_BASE_URL:", import.meta.env.VITE_SERVER_BASE_URL);
 
-const url =
-  import.meta.env.VITE_NODE_ENV === "development"
-    ? import.meta.env.VITE_LOCAL_BASE_URL
-    : import.meta.env.VITE_SERVER_BASE_URL;
+const url = import.meta.env.VITE_SERVER_BASE_URL;
+
+
 
   const fetchItemList = async () => {
     const response = await axios.get(`${url}/api/store/list`);
